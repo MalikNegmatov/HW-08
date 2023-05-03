@@ -27,8 +27,13 @@ public class Main {
         task2_4();
 
         // Из раздела доп.задач к теме Массивы
-        taskAddProblem1(20,20,-10,-2);
-        taskAddProblem1(30,30,-15,8);
+        System.out.println("\n\nДополнительная Задача №1");
+        // Необходимо найти пару чисел сумма которых равна -2.
+        taskAddProblem(20,20,-10,-2, false);
+
+        System.out.println("\n\nДополнительная Задача №2");
+        // Необходимо найти все пары чисел сумма которых равна 8.
+        taskAddProblem(30,30,-15,8,true);
     }
 
     /**
@@ -134,10 +139,15 @@ public class Main {
         }
     }
 
-    public static void taskAddProblem1(int arrayLength, int sectionLength, int sectionDisplace, int givenSum) {
-        System.out.println("\n\nДополнительная Задача №1");
-/*      Необходимо найти два числа, сумма которых равна −2.
-        Пишем код для дополнительной задачи */
+    /**
+     * Метод бинарного поиска пар чисел в отсортированном массиве в сумме равных заданному число.
+     * @param arrayLength -- длина массива
+     * @param sectionLength -- длина интервала генерируемых чисел
+     * @param sectionDisplace -- смещение интервала относительно 0
+     * @param givenSum -- значение суммы пары чисел
+     * @param flag -- Сколько пар чисел с заданной суммой искать: все(true) или одну(false)
+     */
+    public static void taskAddProblem(int arrayLength, int sectionLength, int sectionDisplace, int givenSum, boolean flag) {
 
         int[] numbersArray = generateRandomArray(arrayLength, sectionLength, sectionDisplace);
         System.out.println(Arrays.toString(numbersArray));
@@ -145,18 +155,21 @@ public class Main {
 
         int leftIndex = 0;
         int rightIndex = numbersArray.length-1;
+        boolean zeroPair = true;
 
         Arrays.sort(numbersArray); // сортируем входной массив данных
         while (leftIndex < rightIndex) {
             if (numbersArray[leftIndex] +numbersArray[rightIndex] == givenSum)
             {
                 System.out.print("( " + numbersArray[leftIndex] + " , " + numbersArray[rightIndex] + " )");
-                return;
+                zeroPair = false;
+                if (flag) leftIndex++;
+                else return;
             }
             if (numbersArray[leftIndex] + numbersArray[rightIndex] > givenSum) rightIndex--;
             else leftIndex++;
         }
-        System.out.print("\nВ данном массиве нет пар чисел с общей суммой " + givenSum + ".");
+        if (zeroPair) System.out.print("\nВ данном массиве нет пар чисел с общей суммой " + givenSum + ".");
 
     }
 
